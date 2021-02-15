@@ -1,8 +1,20 @@
 #include <iostream>
 #include <stdlib.h>
 using namespace std;
-//game
-char arr[11][11];  
+
+char arr[11][11];
+
+void printArr()
+{
+    for(int i = 0 ; i < 11 ; i++)
+    {
+        for(int j = 0 ; j < 11 ; j++)
+        {
+            cout << arr[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
 
 void setBase()
 {
@@ -19,19 +31,19 @@ void setBase()
                 arr[i][j] = ' ';
         }
     }
-}
 
-void printArr()
-{
-    for(int i = 0 ; i < 11 ; i++)
+    //setting the numbers
+    char num = '1';
+    for(int i = 1 ; i <= 9 ; i += 4)
     {
-        for(int j = 0 ; j < 11 ; j++)
+        for(int j = 1 ; j <= 9 ; j += 4)
         {
-            cout << arr[i][j] << " ";
+            arr[i][j] = num;
+            num++;
         }
-        cout << endl;
     }
 }
+
 
 void setPlaces(char c, int &order)
 {
@@ -51,9 +63,7 @@ void setPlaces(char c, int &order)
                 order = 1;
             }
             else if(c == ' ')
-            {
                 arr[i][j] = num;
-            }
             num++;
         }
     }
@@ -104,18 +114,55 @@ void table(char num, int &x, int &y)  //to reach the coordinates
     }
 }
 
+int win(bool &gOver)
+{
+    for(int i = 1 ; i <= 9 ; i += 4)
+    {
+        if((arr[i][1] == arr[i][5]) && (arr[i][5] == arr[i][9])) //rows
+        {
+                gOver = true;
+                if(arr[1][1] == 'X')
+                    return 1;
+                else if(arr[1][1] == 'O')
+                    return 2;
+        }
+        else if((arr[1][i] == arr[5][i]) && (arr[5][i] == arr[9][i])) //columns
+        {
+                gOver = true;
+                if(arr[1][1] == 'X')
+                    return 1;
+                else if(arr[1][1] == 'O')
+                    return 2;
+        }
+        else if((arr[1][1] == arr[5][5]) && (arr[5][5] == arr[9][9])) //diagonal
+        {
+                gOver = true;
+                if(arr[1][1] == 'X')
+                    return 1;
+                else if(arr[1][1] == 'O')
+                    return 2;
+        }
+        if((arr[1][9] == arr[5][5]) && (arr[5][5] == arr[9][1])) //diagonal
+        {
+                gOver = true;
+                if(arr[1][1] == 'X')
+                    return 1;
+                else if(arr[1][1] == 'O')
+                    return 2;
+        }  
+    }
+}
+
 int main()
 {
     char p1 = 'X', p2 = 'O';
     char choice = ' ';
     bool gameOver = false;
-    int playerOrder = 1, x, y;
+    int playerOrder = 1, x, y, winner;
     setBase();
+    printArr();
     do
     {
-        system("cls");
-        setPlaces(choice, playerOrder);
-        printArr();
         cout << "Enter a place: ";
         cin >> choice;
         table(choice, x, y);
@@ -125,12 +172,17 @@ int main()
             cin >> choice;
             table(choice, x, y);
         }
-
+        system("cls");
+        setPlaces(choice, playerOrder);
+        printArr();
+        winner = win(gameOver);
     } while (gameOver == false);
     
-    
+    if(winner == 1)
+        cout << "The winner is Player 1!!!" << endl;
+    else if(winner == 2)
+        cout << "The winner is Player 2!!!" << endl;
 
-        
     system("pause");
     return 0;
 }
