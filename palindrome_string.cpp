@@ -17,7 +17,6 @@ int main()
 		else
 			palindrome = false;
 	}
-	
 	if(palindrome == true)
 		cout << str1 << " is a palindrome word." << endl;
 	else 
