@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 using namespace std;
+//HackerRank virtual functions exercise
 
 class Person
 {
