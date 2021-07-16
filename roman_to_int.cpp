@@ -63,5 +63,6 @@ int main()
     num = romanToInt(roman);
     cout << num << endl;
 
+    system("pause");
     return 0;
 }
